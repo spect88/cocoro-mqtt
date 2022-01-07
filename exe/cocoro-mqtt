@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "cocoro/mqtt"
+require "mqtt"
+require "logger"
+
+app_secret, terminal_app_id_key, mqtt_url =
+  ENV.values_at("APP_SECRET", "TERMINAL_APP_ID_KEY", "MQTT_URL")
+
+if [app_secret, terminal_app_id_key, mqtt_url].any?(&:nil?)
+  warn <<~MSG
+    You need to set the required environment variables:
+    - APP_SECRET
+    - TERMINAL_APP_ID_KEY
+    - MQTT_URL
+  MSG
+  exit 1
+end
+
+cocoro = Cocoro::Client.new(app_secret: app_secret, terminal_app_id_key: terminal_app_id_key)
+cocoro.login
+mqtt = MQTT::Client.new(mqtt_url)
+server = Cocoro::Mqtt.new(cocoro_client: cocoro, mqtt_client: mqtt)
+server.logger.level = Logger::INFO
+server.start

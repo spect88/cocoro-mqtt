@@ -24,7 +24,34 @@ Or if you want to run it as a standalone app, install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+The tricky part is that you need to
+[get the credentials first](https://github.com/spect88/cocoro#getting-the-api-credentials).
+
+
+Running the gem standalone:
+```sh
+$ APP_SECRET=... TERMINAL_APP_ID_KEY=... MQTT_URL=... cocoro-mqtt
+```
+
+Using it from code:
+```ruby
+require "cocoro/mqtt"
+require "mqtt"
+require "logger"
+
+app_secret = "..."
+terminal_app_id_key = "..."
+mqtt_url = "..."
+
+cocoro = Cocoro::Client.new(app_secret: app_secret, terminal_app_id_key: terminal_app_id_key)
+cocoro.login
+
+mqtt = MQTT::Client.new(mqtt_url)
+
+server = Cocoro::Mqtt.new(cocoro_client: cocoro, mqtt_client: mqtt)
+server.logger.level = Logger::INFO
+server.start
+```
 
 ## Development
 

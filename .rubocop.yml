@@ -15,10 +15,10 @@ Layout/LineLength:
   Max: 100
 
 Metrics/MethodLength:
-  Max: 30
+  Enabled: false
 
 Metrics/ClassLength:
-  Max: 200
+  Max: 300
 
 Metrics/ModuleLength:
   Max: 200
@@ -27,3 +27,6 @@ Metrics/BlockLength:
   Exclude:
   - spec/**/*_spec.rb
   - '*.gemspec'
+
+Metrics/AbcSize:
+  Enabled: false
