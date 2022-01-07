@@ -1,20 +1,14 @@
 name: Ruby
 
-on:
-  push:
-    - master
-
-  pull_request:
+on: [push,pull_request]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         ruby:
           - 2.7.5
-
     steps:
     - uses: actions/checkout@v2
     - name: Set up Ruby
