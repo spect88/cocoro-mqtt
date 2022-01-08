@@ -100,9 +100,9 @@ module Cocoro
       client.publish("cocoro/#{id}/humidity/state", status.humidity)
       client.publish("cocoro/#{id}/air_cleaned/state", status.total_air_cleaned)
       client.publish("cocoro/#{id}/pm25/state", status.pm25)
-      client.publish("cocoro/#{id}/odor/state", status.smell)
+      client.publish("cocoro/#{id}/odor/state", status.odor)
       client.publish("cocoro/#{id}/dust/state", status.dust)
-      client.publish("cocoro/#{id}/overall_dirtiness/state", status.overall_cleanliness)
+      client.publish("cocoro/#{id}/overall_dirtiness/state", status.overall_dirtiness)
     end
 
     def subscribe_to_device_command_topics(device, client)

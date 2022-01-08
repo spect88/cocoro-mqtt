@@ -2,14 +2,14 @@ PATH
   remote: .
   specs:
     cocoro-mqtt (0.1.0)
-      cocoro (~> 0.1)
+      cocoro (~> 0.2)
       mqtt (~> 0.5)
 
 GEM
   remote: https://rubygems.org/
   specs:
     ast (2.4.2)
-    cocoro (0.1.0)
+    cocoro (0.2.0)
       faraday (~> 1.8)
       faraday-cookie_jar (>= 0.0.7)
       faraday_middleware (~> 1.2)
