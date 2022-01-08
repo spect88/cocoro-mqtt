@@ -121,16 +121,19 @@ module Cocoro
 
     def make_device_discoverable(device, client)
       id = device.echonet_node
+      device_description = {
+        "manufacturer" => device.maker,
+        "model" => device.model,
+        "name" => device.name,
+        "identifiers" => [id]
+      }
       client.publish(
         "homeassistant/fan/airpurifier/#{id}/config",
         JSON.dump(
           "~" => "cocoro/#{id}",
           "name" => "#{device.name} Air Purifier",
-          "device" => {
-            "manufacturer" => "SHARP",
-            "name" => device.name,
-            "identifiers" => [id]
-          },
+          "unique_id" => "#{id}_airpurifier",
+          "device" => device_description,
           "icon" => "mdi:air-purifier",
           "state_topic" => "~/on/state",
           "command_topic" => "~/on/set",
@@ -144,6 +147,8 @@ module Cocoro
         JSON.dump(
           "~" => "cocoro/#{id}/humidifier",
           "name" => "#{device.name} Humidifier",
+          "unique_id" => "#{id}_humidifier",
+          "device" => device_description,
           "state_topic" => "~/state",
           "command_topic" => "~/set",
           "icon" => "mdi:air-humidifier"
@@ -154,6 +159,8 @@ module Cocoro
         JSON.dump(
           "~" => "cocoro/#{id}/light",
           "name" => "#{device.name} Light",
+          "unique_id" => "#{id}_light",
+          "device" => device_description,
           "device_class" => "light",
           "state_topic" => "~/state"
         )
@@ -163,6 +170,8 @@ module Cocoro
         JSON.dump(
           "~" => "cocoro/#{id}/empty_water_tank",
           "name" => "#{device.name} Empty Water Tank",
+          "unique_id" => "#{id}_empty_water_tank",
+          "device" => device_description,
           "device_class" => "problem",
           "state_topic" => "~/state",
           "icon" => "mdi:water"
@@ -173,6 +182,8 @@ module Cocoro
         JSON.dump(
           "~" => "cocoro/#{id}/temperature",
           "name" => "#{device.name} Temperature",
+          "unique_id" => "#{id}_temperature",
+          "device" => device_description,
           "device_class" => "temperature",
           "state_topic" => "~/state",
           "unit_of_measurement" => "°C"
@@ -183,6 +194,8 @@ module Cocoro
         JSON.dump(
           "~" => "cocoro/#{id}/humidity",
           "name" => "#{device.name} Humidity",
+          "unique_id" => "#{id}_humidity",
+          "device" => device_description,
           "device_class" => "humidity",
           "state_topic" => "~/state",
           "unit_of_measurement" => "%"
@@ -193,6 +206,8 @@ module Cocoro
         JSON.dump(
           "~" => "cocoro/#{id}/air_cleaned",
           "name" => "#{device.name} Total Air Cleaned",
+          "unique_id" => "#{id}_air_cleaned",
+          "device" => device_description,
           "device_class" => "gas",
           "state_topic" => "~/state",
           "unit_of_measurement" => "m³"
@@ -203,6 +218,8 @@ module Cocoro
         JSON.dump(
           "~" => "cocoro/#{id}/pm25",
           "name" => "#{device.name} PM 2.5",
+          "unique_id" => "#{id}_pm25",
+          "device" => device_description,
           "device_class" => "pm25",
           "state_topic" => "~/state",
           "unit_of_measurement" => "µg/m³"
@@ -213,6 +230,8 @@ module Cocoro
         JSON.dump(
           "~" => "cocoro/#{id}/odor",
           "name" => "#{device.name} Odor",
+          "unique_id" => "#{id}_odor",
+          "device" => device_description,
           "state_topic" => "~/state",
           "icon" => "mdi:scent",
           "unit_of_measurement" => "%"
@@ -223,6 +242,8 @@ module Cocoro
         JSON.dump(
           "~" => "cocoro/#{id}/dust",
           "name" => "#{device.name} Dust",
+          "unique_id" => "#{id}_dust",
+          "device" => device_description,
           "state_topic" => "~/state",
           "icon" => "mdi:broom",
           "unit_of_measurement" => "%"
@@ -233,6 +254,8 @@ module Cocoro
         JSON.dump(
           "~" => "cocoro/#{id}/overall_dirtiness",
           "name" => "#{device.name} Overall Air Dirtiness",
+          "unique_id" => "#{id}_overall_dirtiness",
+          "device" => device_description,
           "state_topic" => "~/state",
           "icon" => "mdi:delete",
           "unit_of_measurement" => "%"
