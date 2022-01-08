@@ -5,6 +5,8 @@ require "cocoro/mqtt"
 require "mqtt"
 require "logger"
 
+$stdout.sync = true
+
 app_secret, terminal_app_id_key, mqtt_url =
   ENV.values_at("APP_SECRET", "TERMINAL_APP_ID_KEY", "MQTT_URL")
 
