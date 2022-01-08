@@ -24,7 +24,7 @@ module Cocoro
 
     def start
       @mqtt.connect do |client|
-        @cocoro.devices.each do |device|
+        air_cleaners.each do |device|
           subscribe_to_device_command_topics(device, client)
           make_device_discoverable(device, client)
         end
@@ -36,9 +36,13 @@ module Cocoro
 
     protected
 
+    def air_cleaners
+      @air_cleaners ||= @cocoro.devices.select { |d| d.type == "AIR_CLEANER" }
+    end
+
     def keep_publishing_state_updates(client)
       loop do
-        @cocoro.devices.each do |device|
+        air_cleaners.each do |device|
           refresh_device_state(device, client)
         end
         sleep @interval
@@ -66,7 +70,7 @@ module Cocoro
 
     def handle_command(client, topic, message)
       _, id, target = topic.split("/")
-      device = @cocoro.devices.find { |d| d.echonet_node == id }
+      device = air_cleaners.find { |d| d.echonet_node == id }
       if device.nil?
         @logger.error { "Unknown device: #{id} (#{topic})" }
         return
