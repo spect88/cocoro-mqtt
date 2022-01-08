@@ -94,7 +94,6 @@ module Cocoro
     end
 
     def publish_device_state(device, client, status)
-      # TODO: availability
       id = device.echonet_node
       client.publish("cocoro/#{id}/on/state", status.power_on? ? "ON" : "OFF")
       client.publish("cocoro/#{id}/mode/state", status.air_volume)
@@ -128,6 +127,11 @@ module Cocoro
         "name" => device.name,
         "identifiers" => [id]
       }
+      availabile_only_when_on = {
+        "topic" => "cocoro/#{id}/on/state",
+        "payload_available" => "ON",
+        "payload_not_available" => "OFF"
+      }
       client.publish(
         "homeassistant/fan/airpurifier/#{id}/config",
         JSON.dump(
@@ -150,6 +154,7 @@ module Cocoro
           "name" => "#{device.name} Humidifier",
           "unique_id" => "#{id}_humidifier",
           "device" => device_description,
+          "availability" => [availabile_only_when_on],
           "state_topic" => "~/state",
           "command_topic" => "~/set",
           "icon" => "mdi:air-humidifier"
@@ -185,6 +190,7 @@ module Cocoro
           "name" => "#{device.name} Temperature",
           "unique_id" => "#{id}_temperature",
           "device" => device_description,
+          "availability" => [availabile_only_when_on],
           "device_class" => "temperature",
           "state_topic" => "~/state",
           "unit_of_measurement" => "°C"
@@ -197,6 +203,7 @@ module Cocoro
           "name" => "#{device.name} Humidity",
           "unique_id" => "#{id}_humidity",
           "device" => device_description,
+          "availability" => [availabile_only_when_on],
           "device_class" => "humidity",
           "state_topic" => "~/state",
           "unit_of_measurement" => "%"
@@ -221,6 +228,7 @@ module Cocoro
           "name" => "#{device.name} PM 2.5",
           "unique_id" => "#{id}_pm25",
           "device" => device_description,
+          "availability" => [availabile_only_when_on],
           "device_class" => "pm25",
           "state_topic" => "~/state",
           "unit_of_measurement" => "µg/m³"
@@ -233,6 +241,7 @@ module Cocoro
           "name" => "#{device.name} Odor",
           "unique_id" => "#{id}_odor",
           "device" => device_description,
+          "availability" => [availabile_only_when_on],
           "state_topic" => "~/state",
           "icon" => "mdi:scent",
           "unit_of_measurement" => "%"
@@ -245,6 +254,7 @@ module Cocoro
           "name" => "#{device.name} Dust",
           "unique_id" => "#{id}_dust",
           "device" => device_description,
+          "availability" => [availabile_only_when_on],
           "state_topic" => "~/state",
           "icon" => "mdi:broom",
           "unit_of_measurement" => "%"
@@ -257,6 +267,7 @@ module Cocoro
           "name" => "#{device.name} Overall Air Dirtiness",
           "unique_id" => "#{id}_overall_dirtiness",
           "device" => device_description,
+          "availability" => [availabile_only_when_on],
           "state_topic" => "~/state",
           "icon" => "mdi:delete",
           "unit_of_measurement" => "%"
