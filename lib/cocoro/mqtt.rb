@@ -76,6 +76,7 @@ module Cocoro
         return
       end
 
+      @logger.info { "Executing '#{message}' command at '#{topic}'" }
       case target
       when "on"
         device.set_power_on!(message == "ON")
